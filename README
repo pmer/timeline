@@ -1,0 +1,23 @@
+Show the time when each line on stdout or stderr was printed.
+
+The first column is how long the current line took since the previous line and
+the second column is how long the line took since the beginning of the program.
+
+E.g.:
+
+$ timeline make pack-tool
+[0.098/0.098] [  7%] Building CXX object CMakeFiles/pack-tool.dir/src/os/unix-mapped-file.cpp.o
+[0.055/0.154] [ 14%] Building CXX object CMakeFiles/pack-tool.dir/src/os/unix.cpp.o
+[0.075/0.228] [ 21%] Building CXX object CMakeFiles/pack-tool.dir/src/pack/file-type.cpp.o
+[0.049/0.278] [ 28%] Building CXX object CMakeFiles/pack-tool.dir/src/pack/main.cpp.o
+[0.095/0.372] [ 35%] Building CXX object CMakeFiles/pack-tool.dir/src/pack/pack-reader.cpp.o
+[0.108/0.480] [ 42%] Building CXX object CMakeFiles/pack-tool.dir/src/pack/pack-writer.cpp.o
+[0.091/0.572] [ 50%] Building CXX object CMakeFiles/pack-tool.dir/src/pack/pool.cpp.o
+[0.086/0.657] [ 57%] Building CXX object CMakeFiles/pack-tool.dir/src/pack/ui-log.cpp.o
+[0.072/0.729] [ 64%] Building CXX object CMakeFiles/pack-tool.dir/src/pack/walker.cpp.o
+[0.080/0.809] [ 71%] Building CXX object CMakeFiles/pack-tool.dir/src/util/assert.cpp.o
+[0.044/0.852] [ 78%] Building CXX object CMakeFiles/pack-tool.dir/src/util/fnv.cpp.o
+[0.043/0.895] [ 85%] Building CXX object CMakeFiles/pack-tool.dir/src/util/string-view.cpp.o
+[0.053/0.948] [ 92%] Building CXX object CMakeFiles/pack-tool.dir/src/util/string.cpp.o
+[0.071/1.019] [100%] Linking CXX executable pack-tool
+[0.080/1.099] [100%] Built target pack-tool
