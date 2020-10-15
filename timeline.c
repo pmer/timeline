@@ -5,6 +5,31 @@
 #include <time.h>
 #include <unistd.h>
 
+#ifdef __APPLE__
+
+#include <mach/mach_time.h>
+
+static struct mach_timebase_info timebase = {0, 0};
+
+uint64_t ns() {
+    if (timebase.numer == 0 && timebase.denom == 0) {
+        kern_return_t err = mach_timebase_info(&timebase);
+        assert(err == KERN_SUCCESS);
+    }
+    return mach_absolute_time() * timebase.numer / timebase.denom;
+}
+
+#elif
+
+uint64_t ns() {
+    struct timespec tp;
+    int err = clock_gettime(CLOCK_UPTIME_RAW, &tp);
+    assert(err == 0);
+    return tp.tv_sec * 1000000000 + tp.tv_nsec;
+}
+
+#endif
+
 int main(int argc, char** argv) {
     char *line = NULL;
     size_t linecap = 0;
@@ -50,15 +75,11 @@ int main(int argc, char** argv) {
         masterfile = fdopen(master, "r");
         assert(masterfile);
 
-        err = clock_gettime(CLOCK_UPTIME_RAW, &tp);
-        assert(err == 0);
-        start = (double)tp.tv_sec + (double)tp.tv_nsec / 1000000000;
+        start = (double)ns() / 1000000000;
         prev = start;
 
         while ((linelen = getline(&line, &linecap, masterfile)) > 0) {
-            err = clock_gettime(CLOCK_UPTIME_RAW, &tp);
-            assert(err == 0);
-            now = (double)tp.tv_sec + (double)tp.tv_nsec / 1000000000;
+            now = (double)ns() / 1000000000;
 
             bytes = printf("%c[0m[%.3f/%.3f] ", 27, now - prev, now - start);
             assert(bytes >= 5);
