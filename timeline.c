@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+
 #include <assert.h>
 #include <fcntl.h>
 #include <stdint.h>
@@ -24,7 +26,7 @@ uint64_t ns() {
 
 uint64_t ns() {
     struct timespec tp;
-    int err = clock_gettime(CLOCK_UPTIME_RAW, &tp);
+    int err = clock_gettime(CLOCK_MONOTONIC, &tp);
     assert(err == 0);
     return tp.tv_sec * 1000000000 + tp.tv_nsec;
 }
