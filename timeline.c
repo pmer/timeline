@@ -19,7 +19,7 @@ uint64_t ns() {
     return mach_absolute_time() * timebase.numer / timebase.denom;
 }
 
-#elif
+#else
 
 uint64_t ns() {
     struct timespec tp;
