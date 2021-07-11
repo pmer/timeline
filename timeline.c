@@ -28,7 +28,7 @@ uint64_t ns() {
     struct timespec tp;
     int err = clock_gettime(CLOCK_MONOTONIC, &tp);
     assert(err == 0);
-    return tp.tv_sec * 1000000000 + tp.tv_nsec;
+    return ((uint64_t)tp.tv_sec) * 1000000000ULL + ((uint64_t)tp.tv_nsec);
 }
 
 #endif
@@ -78,11 +78,11 @@ int main(int argc, char** argv) {
         masterfile = fdopen(master, "r");
         assert(masterfile);
 
-        start = (double)ns() / 1000000000;
+        start = ((double)ns()) / 1000000000.0;
         prev = start;
 
         while ((linelen = getline(&line, &linecap, masterfile)) > 0) {
-            now = (double)ns() / 1000000000;
+            now = ((double)ns()) / 1000000000.0;
 
             bytes = printf("%c[0m[%.3f/%.3f] ", 27, now - prev, now - start);
             assert(bytes >= 5);
